@@ -17,22 +17,6 @@
       margin: 30px auto;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
-    input[type="date"] {
-      padding: 8px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    button {
-      margin-top: 16px;
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      background-color: #007bff;
-      color: white;
-      cursor: pointer;
-    }
     .result {
       margin-top: 20px;
       font-size: 20px;
@@ -42,28 +26,23 @@
 </head>
 <body>
   <div class="card">
-    <h2>Check Duration from Today</h2>
-    <input type="date" id="d2">
-    <br>
-    <button onclick="calculateDuration()">Calculate</button>
-    <div class="result" id="result"></div>
+    <h2>Duration from Today</h2>
+    <div class="result" id="result">Calculating...</div>
   </div>
 
   <script>
-    function calculateDuration() {
-      const today = new Date();
-      const inputDate = document.getElementById("d2").value;
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    window.onload = function () {
+      const d2 = parseInt(getQueryParam("d2"));
+      const m2 = parseInt(getQueryParam("m2"));
+      const y2 = parseInt(getQueryParam("y2"));
+
       const resultEl = document.getElementById("result");
 
-      if (!inputDate) {
-        resultEl.innerHTML = "<span style='color:red'>Please select a date.</span>";
+      if (!d2 || !m2 || !y2) {
+        resultEl.innerHTML = "<span style='color:red'>Missing date parameters. Use ?d2=DD&m2=MM&y2=YYYY</span>";
         return;
-      }
-
-      const endDate = new Date(inputDate);
-      const oneDay = 1000 * 60 * 60 * 24;
-      const diffTime = endDate.getTime() - today.setHours(0,0,0,0);
-      const diffDays = Math.round(diffTime / oneDay);
-
-      if (diffDays >= 0) {
-        resultEl.innerHTML =

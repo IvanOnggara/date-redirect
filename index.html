@@ -46,3 +46,24 @@
       if (!d2 || !m2 || !y2) {
         resultEl.innerHTML = "<span style='color:red'>Missing date parameters. Use ?d2=DD&m2=MM&y2=YYYY</span>";
         return;
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Normalize to midnight
+
+      const targetDate = new Date(y2, m2 - 1, d2); // Months are 0-based
+      const diffTime = targetDate.getTime() - today.getTime();
+      const oneDay = 1000 * 60 * 60 * 24;
+      const diffDays = Math.round(diffTime / oneDay);
+
+      if (diffDays > 0) {
+        resultEl.innerHTML = `There are <strong>${diffDays}</strong> day(s) left until ${d2}/${m2}/${y2}.`;
+      } else if (diffDays === 0) {
+        resultEl.innerHTML = `Today is the day! (${d2}/${m2}/${y2}) 🎉`;
+      } else {
+        resultEl.innerHTML = `<span style="color:orange;">That date was <strong>${-diffDays}</strong> day(s) ago. (${d2}/${m2}/${y2})</span>`;
+      }
+    };
+  </script>
+</body>
+</html>

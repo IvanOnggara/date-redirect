@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Redirecting...</title>
+  <script>
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    window.onload = function() {
+      const today = new Date();
+      const d1 = today.getDate();
+      const m1 = today.getMonth() + 1;
+      const y1 = today.getFullYear();
+
+      // Get d2, m2, y2 from URL
+      const d2 = getQueryParam("d2");
+      const m2 = getQueryParam("m2");
+      const y2 = getQueryParam("y2");
+
+      // If all parameters exist, redirect
+      if (d2 && m2 && y2) {
+        const url = `https://www.timeanddate.com/date/durationresult.html?d1=${d1}&m1=${m1}&y1=${y1}&d2=${d2}&m2=${m2}&y2=${y2}`;
+        window.location.href = url;
+      } else {
+        document.body.innerHTML = `
+          <p>Please use the format: ?d2=17&m2=10&y2=2025</p>
+          <p>Example: <code>?d2=1&m2=7&y2=2025</code></p>
+        `;
+      }
+    };
+  </script>
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>
